@@ -1,7 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -45,10 +46,36 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    //coroutine dependencies
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+
     // ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     // LiveData
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    // Lifecycles only (without ViewModel or LiveData)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
     // Annotation processor
-    kapt("androidx.lifecycle:lifecycle-compiler:2.8.7")
+    ksp(libs.androidx.lifecycle.compiler)
+
+    //for fragment navigation
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
+
+    //room dependencies
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+
+    //retrofit dependencies
+    implementation(libs.retrofit2.retrofit)
+    implementation(libs.converter.gson)
+    //to debug our api request okkhttp interceptor
+    implementation(libs.logging.interceptor)
+
+    //glide dependencies
+    implementation(libs.glide)
+    ksp(libs.compiler)
 }
