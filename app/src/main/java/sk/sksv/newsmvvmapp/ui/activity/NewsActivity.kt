@@ -1,16 +1,29 @@
-package sk.sksv.newsmvvmapp
+package sk.sksv.newsmvvmapp.ui.activity
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import sk.sksv.newsmvvmapp.R
+import sk.sksv.newsmvvmapp.databinding.ActivityNewsBinding
 
-class MainActivity : AppCompatActivity() {
+class NewsActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityNewsBinding // DataBinding reference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        binding = ActivityNewsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        val navHost =
+            supportFragmentManager.findFragmentById(R.id.nav_graph_view) as NavHostFragment
+
+        val navController = navHost.navController
+        binding.bottomMenu.setupWithNavController(navController)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -20,6 +33,12 @@ class MainActivity : AppCompatActivity() {
 }
 
 /*
+ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
 * This code is handling window insets in an Android app, specifically dealing with system bars
 * (status bar and navigation bar) to ensure proper padding is applied to your view so that content
 *  isn't obscured by these system UI elements.
