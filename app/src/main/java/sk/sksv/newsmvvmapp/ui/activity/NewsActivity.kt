@@ -5,19 +5,30 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import sk.sksv.newsmvvmapp.R
 import sk.sksv.newsmvvmapp.databinding.ActivityNewsBinding
+import sk.sksv.newsmvvmapp.db.ArticleDatabase
+import sk.sksv.newsmvvmapp.repository.NewsRepository
+import sk.sksv.newsmvvmapp.view_model.NewsViewModel
+import sk.sksv.newsmvvmapp.view_model.NewsViewModelProviderFactory
 
 class NewsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNewsBinding // DataBinding reference
-
+    lateinit var viewModel: NewsViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityNewsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val newsRepository = NewsRepository(ArticleDatabase(this))
+        val viewModelProviderFactory = NewsViewModelProviderFactory(newsRepository)
+        viewModel = ViewModelProvider(this, viewModelProviderFactory).get(
+            NewsViewModel::class.java
+        )
         val navHost =
             supportFragmentManager.findFragmentById(R.id.nav_graph_view) as NavHostFragment
 

@@ -1,14 +1,15 @@
 package sk.sksv.newsmvvmapp.db
 
-import androidx.room.TypeConverters
+import androidx.room.TypeConverter
 import sk.sksv.newsmvvmapp.model.Source
 
 class Converters {
-    @TypeConverters
+    @TypeConverter
     fun fromSource(source: Source): String {
         return source.name
     }
 
+    @TypeConverter
     fun toSource(name: String): Source {
         return Source(name, name)
     }
